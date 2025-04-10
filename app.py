@@ -1,14 +1,29 @@
+import os
 from flask import Flask
 from routes.routes import routes_bp  # Import the Blueprint from routes.py
+from config import DevelopmentConfig, ProductionConfig
 
-app = Flask(__name__)
 
-# db.init_app(app)
-# with app.app_context():
-#     db.create_all()
+# Initialize the Flask application
+def create_app():
 
-app.register_blueprint(routes_bp)  # Register Blueprint
+    environment = os.getenv('FLASK_ENV', 'development')
 
+    if environment == 'production':
+        config_class = ProductionConfig
+    else:
+        config_class = DevelopmentConfig
+
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    # Register Blueprints
+    app.register_blueprint(routes_bp)
+
+    return app
+
+
+# Initialize the app
 if __name__ == '__main__':
-
-    app.run(debug=True)
+    app = create_app()
+    app.run(debug=app.config['DEBUG'])

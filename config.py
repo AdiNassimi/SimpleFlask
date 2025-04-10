@@ -1,10 +1,16 @@
 import os
 
+
 # This is a configuration file for a Flask application.
-SECRET_KEY = "it's secret!"
+class Config:
+    DEBUG = False
+    TESTING = False
+    SECRET_KEY = os.environ.get("SECRET_KEY", "dev_secret_key")
 
-# Connect to PostgreSQL database
-# SQLALCHEMY_DATABASE_URI = "postgresql://postgres:mysecretpassword@localhost:5432/"
 
-# Enable or disable debug mode
-DEBUG = True
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+
+class ProductionConfig(Config):
+    SECRET_KEY = os.environ.get("SECRET_KEY", "it's secret!")
