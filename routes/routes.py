@@ -1,11 +1,9 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint
+from controllers.ActivitiesController import get_activity, create_activity
+from controllers.MonitorController import get_monitor
 
-
-# Create a Blueprint instance
 routes_bp = Blueprint('routes', __name__)
 
-@routes_bp.route('/hello', methods=['GET'])
-def say_hello():
-    name = request.args.get('name')
-    data = request.get_json()  # Get body param
-    return jsonify({"message": f"Hello {name} from Blueprint!"}), 200
+routes_bp.route('/activity', methods=['GET'])(get_activity)
+routes_bp.route('/activity', methods=['POST'])(create_activity)
+routes_bp.route('/monitor', methods=['GET'])(get_monitor)

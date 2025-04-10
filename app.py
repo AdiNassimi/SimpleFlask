@@ -1,5 +1,5 @@
 from flask import Flask
-from routes import routes_bp  # Import the Blueprint from routes.py
+from routes.routes import routes_bp  # Import the Blueprint from routes.py
 
 app = Flask(__name__)
 
